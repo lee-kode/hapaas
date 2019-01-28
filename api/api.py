@@ -1,6 +1,14 @@
 from flask import Flask, json, jsonify
 
+from lib.config import get_config
+
 app = Flask(__name__)
+config = get_config()
+
+
+@app.route('/config')
+def handle_config():
+    return jsonify(config)
 
 
 @app.route('/api/v1/frontend')
@@ -19,8 +27,7 @@ def handle_listen():
 
 
 if __name__ == '__main__':
-    # TODO: This must get pulled from an config object
-    host = '127.0.0.1'
-    port = 8080
+    host = config['api']['host']
+    port = config['api']['port']
 
     app.run(host=host, port=port)
